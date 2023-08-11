@@ -18,3 +18,25 @@ O projeto depende das seguintes bibliotecas e ferramentas:
 * numpy: Para operações matemáticas.
 * matplotlib: Para visualização de dados e plotagem de gráficos.
 * scikit-learn: Para modelos de aprendizado de máquina.
+
+# Instalação
+
+```shell
+git clone https://github.com/alvarorichard/AlphaWave.git
+cd AlphaWave
+```
+## Instale as Dependências:
+
+```python
+pip install -r requirements.txt
+```
+
+## Execução
+
+```python
+python main.py
+```
+## Contribuição
+Contribuições são bem-vindas! Por favor, leia o CONTRIBUTING.md para detalhes sobre o processo de submissão de pull requests.
+
+
