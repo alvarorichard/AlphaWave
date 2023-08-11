@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://i.imgur.com/jhhEH3e.png" alt="AlphaWave Logo">
+</p>
+
 # AlphaWave Market Intelligence Unit
 
 O AlphaWave Market Intelligence Unit é uma solução avançada de análise de mercado que utiliza técnicas modernas de inteligência artificial para fornecer insights precisos sobre tendências de mercado e previsões.
