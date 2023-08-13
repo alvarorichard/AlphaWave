@@ -10,7 +10,7 @@ O AlphaWave Market Intelligence Unit é uma solução avançada de análise de m
 
 * Análise profunda do mercado usando dados históricos.
 * Previsões baseadas em modelos de aprendizado de máquina.
-* Interface amigável e relatórios detalhados.
+  
 
 ## Dependências
 
