@@ -23,22 +23,33 @@ nltk.download('vader_lexicon')
 
 
 # Função para obter dados da News API e analisar o sentimento usando VADER
+
+# ... (restante do código anterior)
+
+# Função para obter dados da News API e analisar o sentimento usando VADER
 def get_sentiment(ticker):
-    url = f"https://newsapi.org/v2/everything?q={ticker}&apiKey=56e8609d24dc45328e7968ae21e0ebad"
+    url = f"https://newsapi.org/v2/everything?q={ticker}+stocks&apiKey=56e8609d24dc45328e7968ae21e0ebad"
     response = requests.get(url)
     news_data = json.loads(response.text)
-    articles = news_data['articles']
+    articles = news_data.get('articles', [])
 
     sia = SentimentIntensityAnalyzer()
 
     sentiment_score = 0
+    count = 0
     for article in articles:
-        sentiment = sia.polarity_scores(article['title'])
-        sentiment_score += sentiment['compound']
+        # Filtragem de Notícias - exemplo simples, pode ser aprimorado
+        if "finance" in article["source"]["name"].lower() or "business" in article["source"]["name"].lower():
+            title_sentiment = sia.polarity_scores(article['title'])['compound']
+            content_sentiment = sia.polarity_scores(article['description'])['compound']
+            sentiment_score += title_sentiment + content_sentiment
+            count += 2
 
-    average_sentiment = sentiment_score / len(articles) if articles else 0
+    average_sentiment = sentiment_score / count if count else 0
 
     return average_sentiment
+
+# ... (restante do código posterior)
 
 
 # Função para baixar dados e fazer previsões
