@@ -80,8 +80,8 @@ def get_forecast(ticker):
     return annual_mean, forecast, adjusted_forecast, sentiment
 
 
-# Baixar dados e fazer previsões para Apple e Nestlé
-tickers = ['AAPL', 'NSRGY']
+# Baixar dados e fazer previsões para Apple
+tickers = ['AAPL']
 predictions = {}
 
 for ticker in tickers:
@@ -103,7 +103,7 @@ for ticker in tickers:
     plt.axhline(y=predictions[ticker]['sentiment'], color='r', linestyle='-',
                 label=f"Sentimento Médio de {ticker}")
 
-plt.title('Previsão e Análise de Sentimento de Preços Médios Anuais de Ações da Apple e Nestlé')
+plt.title('Previsão e Análise de Sentimento de Preços Médios Anuais de Ações da Apple')
 plt.xlabel('Ano')
 plt.ylabel('Preço Médio Anual ($)')
 plt.legend()
