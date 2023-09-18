@@ -2,6 +2,12 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import requests
 import json
+from fpdf import FPDF
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import landscape, letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+
 import pandas as pd
 import numpy as np
 import yfinance as yf
@@ -22,9 +28,7 @@ yf.pdr_override()
 nltk.download('vader_lexicon')
 
 
-# Função para obter dados da News API e analisar o sentimento usando VADER
 
-# ... (restante do código anterior)
 
 # Função para obter dados da News API e analisar o sentimento usando VADER
 def get_sentiment(ticker):
@@ -89,6 +93,7 @@ for ticker in tickers:
     predictions[ticker] = {'annual_mean': annual_mean, 'forecast': forecast, 'adjusted_forecast': adjusted_forecast,
                            'sentiment': sentiment}
 
+
 # Plotar os resultados
 plt.figure(figsize=(14, 7))
 
@@ -108,6 +113,58 @@ plt.xlabel('Ano')
 plt.ylabel('Preço Médio Anual ($)')
 plt.legend()
 plt.grid(True)
+
+def create_pdf(annual_mean, forecast, adjusted_forecast, sentiment, ticker):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    pdf.cell(200, 10, f"Relatório de Previsão e Análise de Sentimento para {ticker}", ln=1, align='C')
+
+    # Adicionar texto
+    pdf.ln(10)
+    pdf.cell(200, 10, "Previsões:", ln=1)
+    current_year = datetime.now().year
+    for i, year in enumerate(range(current_year, current_year + 8)):
+        pdf.cell(200, 10, f"Previsão sem ajuste para {year}: ${forecast[i]:.2f}", ln=1)
+        pdf.cell(200, 10, f"Previsão ajustada para {year}: ${adjusted_forecast[i]:.2f}", ln=1)
+
+    pdf.cell(200, 10, f"Sentimento médio para {ticker}: {sentiment}", ln=1)
+
+    # Adicionar tabela
+    pdf.ln(10)
+    pdf.cell(200, 10, "Tabela de Previsões:", ln=1)
+    data = [["Ano", "Previsão sem ajuste", "Previsão ajustada"]]
+    for i, year in enumerate(range(current_year, current_year + 8)):
+        data.append([str(year), f"${forecast[i]:.2f}", f"${adjusted_forecast[i]:.2f}"])
+
+    pdf_file_path = "table.pdf"
+    pdf_file = SimpleDocTemplate(
+        pdf_file_path, pagesize=letter
+    )
+    table = Table(data)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 14),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+    ]))
+    elements = []
+    elements.append(table)
+    pdf_file.build(elements)
+
+    # Salvar o PDF
+    pdf_file_name = f"{ticker}_Forecast_Sentiment_Report.pdf"
+    pdf.output(pdf_file_name)
+
+# Chame a função para criar o PDF
+for ticker in tickers:
+    annual_mean, forecast, adjusted_forecast, sentiment = predictions[ticker].values()
+    create_pdf(annual_mean, forecast, adjusted_forecast, sentiment, ticker)
 
 # Salvar o gráfico em um arquivo PNG
 filename = "AAPL_NSRGY_annual_stock_price_ARIMA_sentiment_prediction.png"
