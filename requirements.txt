@@ -1,6 +1,9 @@
-pandas~=2.0.3
-numpy~=1.24.3
-yfinance~=0.2.27
-matplotlib~=3.7.2
-scikit-learn~=1.3.0
-statsmodels>=0.12.0
+nltk==3.6.3
+requests==2.26.0
+fpdf==1.7.2
+reportlab==3.5.68
+pandas==1.3.3
+numpy==1.21.2
+yfinance==0.1.63
+matplotlib==3.4.3
+statsmodels==0.12.2
