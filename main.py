@@ -53,7 +53,7 @@ def get_sentiment(ticker):
 
     return average_sentiment
 
-# ... (restante do código posterior)
+
 
 
 # Função para baixar dados e fazer previsões
